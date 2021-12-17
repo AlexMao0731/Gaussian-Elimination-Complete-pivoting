@@ -1,0 +1,49 @@
+import numpy as np
+from numpy.linalg import inv
+
+def lu(A):
+    pass #TODO
+    m,n=A.shape
+    U=A.copy()
+    L=np.eye(n,dtype=float)
+    for i in range (0,n-1):
+        for j in range(i+1,n):
+            scale=0
+            if(U[j,i]!=0 or U[i,i]!=0):
+                scale=U[j,i]/U[i,i]
+            U[j,i:n]=U[j,i:n]-scale*U[i,i:n]
+            L[j,i]=scale
+   
+    return (L, U)
+
+def lu_complete(A):
+    pass #TODO
+    m,n=A.shape
+    U=A.copy()
+    P=np.eye(n,dtype=float)
+    Q=np.eye(n,dtype=float)
+    L=np.eye(n,dtype=float)
+    for size in range (0,n-1):
+        big=abs(U[size,size])
+        for i in range(size,n):
+            for j in range(size,n):       
+                if (abs(U[i,j])>big):
+                    big=abs(U[i,j])
+                    x=j
+                    y=i
+        print("before\n",U)
+        U[:,[size,x]]=U[:,[x,size]] #interchange columns
+        Q[:,[size,x]]=Q[:,[x,size]]
+        U[[size,y],:]=U[[y,size],:]#interchange row
+        P[[size,y],:]=P[[y,size],:]
+        print("after\n",U)
+    #####
+        L[[size,y],0:size]=L[[y,size],0:size]  #interchange rows only(0:size)
+        L[0:size,[size,x]]=L[0:size,[x,size]]  #interchange column only(0:size)
+        for j in range(size+1,n):
+                scale=0
+                if(U[j,size]!=0 or U[size,size]!=0):
+                    scale=U[j,size]/U[size,size]
+                U[j,size:n]=U[j,size:n]-scale*U[size,size:n]
+                L[j,size]=scale
+    return (P, Q, L, U)
