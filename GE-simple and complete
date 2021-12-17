@@ -2,7 +2,6 @@ import numpy as np
 from numpy.linalg import inv
 
 def lu(A):
-    pass #TODO
     m,n=A.shape
     U=A.copy()
     L=np.eye(n,dtype=float)
@@ -17,7 +16,6 @@ def lu(A):
     return (L, U)
 
 def lu_complete(A):
-    pass #TODO
     m,n=A.shape
     U=A.copy()
     P=np.eye(n,dtype=float)
@@ -31,12 +29,12 @@ def lu_complete(A):
                     big=abs(U[i,j])
                     x=j
                     y=i
-        print("before\n",U)
+      #  print("before\n",U)       # you can check the (size,size) is the biggest value by remove#
         U[:,[size,x]]=U[:,[x,size]] #interchange columns
         Q[:,[size,x]]=Q[:,[x,size]]
         U[[size,y],:]=U[[y,size],:]#interchange row
         P[[size,y],:]=P[[y,size],:]
-        print("after\n",U)
+      #  print("after\n",U)        # you can check the (size,size) is the biggest value by remove#
     #####
         L[[size,y],0:size]=L[[y,size],0:size]  #interchange rows only(0:size)
         L[0:size,[size,x]]=L[0:size,[x,size]]  #interchange column only(0:size)
